@@ -1,0 +1,17 @@
+<div class="card">
+    <h5 class="card-header">Featured</h5>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <form [formGroup]="form " (submit)="onSubmit()">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email addres</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="nhap email">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email addres</label>
+            <input type="email" class="form-control" formControlName="password" placeholder="nhap email">
+        </div>
+        <button type="sumbit" class="btn btn-success" [disabled]="form.invalid">login</button>
+      </form>
+    </div>
+  </div>
