@@ -8,6 +8,6 @@ export const ApiEndpoints = {
     }
 };
 
-export const LocalStorage ={
+export  const LocalStorage ={
     token: 'user_tokken'
-};
+}; 

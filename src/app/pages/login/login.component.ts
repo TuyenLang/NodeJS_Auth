@@ -30,6 +30,10 @@ export class LoginComponent {
       })
 
     }
+    else{
+      this.form.markAllAsTouched();
+    }
+
   }
 
 }

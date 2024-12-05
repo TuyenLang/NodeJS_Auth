@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -10,16 +12,25 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 })
 export class RegisterComponent {
   form: FormGroup;
+
+  authService = inject(AuthService);
+  router = inject(Router);
   constructor(private fb: FormBuilder){
     this.form = this.fb.group({
-      username: new FormControl('',[Validators.required]),
+      name: new FormControl('',[Validators.required]),
       email: new FormControl('',[Validators.required, Validators.email]),
       password: new FormControl('',[Validators.required])
     })
   }
   onSubmit(){
     if(this.form.valid){
-      console.log(this.form.value)
+      console.log(this.form.value);
+      this.authService.register(this.form.value).subscribe({
+        next: () =>{
+          this.router.navigate(['/login']);
+        }
+      }
+      )  
 
     }
   }

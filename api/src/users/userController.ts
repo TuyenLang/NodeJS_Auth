@@ -35,6 +35,7 @@ const register = async(req: Request, res: Response, next: NextFunction)=>{
             name,
             email,
             password: hashPassword,
+            role: "user",
         });
 
         // Thay đổi: Thêm `await newUser.save()` để đảm bảo user được lưu vào database.
@@ -80,7 +81,8 @@ const login = async(req: Request, res: Response, next: NextFunction)=>{
                      res.status(200).json({
                         message: 'Login success',
                         status: true,
-                        data: {_id: userFound._id, email: userFound.email},
+                        data: {_id: userFound._id, email: userFound.email,role: userFound.role},
+                        
                         token,
                     })    
 
@@ -100,7 +102,7 @@ const me = async(req: Request, res: Response, next: NextFunction)=>{
         res.status(200).json({
             status: true,
             message: 'User found',
-            data:{_id: user._id, email: user.email, name: user.name}
+            data:{_id: user._id, email: user.email, name: user.name, role: user.role}
         })
         return;
     }
