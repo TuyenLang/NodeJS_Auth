@@ -115,8 +115,59 @@ const me = async(req: Request, res: Response, next: NextFunction)=>{
     }
     
 };
+const getAllUsers = async(req: Request, res: Response, next: NextFunction)=>{
+ 
+    try {
+        
+        const users = await UserSchema.find({role: "user"}).select('-password');
+        res.status(200).json({
+            status: true,
+            message: 'List of all users',
+            data: users,
+        })
+    } catch (error) {
+        console.error("Error in get all users:", error);
+        next(createHttpError(500, 'Failed to fetch user'));
+        
+    }
 
+
+    }
+    // const hasUser = async(req: Request, res: Response, next: NextFunction)=>{
+    //     const user = await UserSchema.find();
+    // }
+
+const addNewUser = async(req: Request, res: Response, next: NextFunction)=>{
+    try {
+
+        const {name, email, password, role} = req.body;
+        if(!name || !email || !password || !role){
+            res.status(400).json({message: 'Please fill all fields'});
+            return;
+        }
+        const userExist = await UserSchema.findOne({email});
+        if(userExist){
+            res.status(400).json({message: 'Email already exists'});
+            return;
+        }
+        const user = await UserSchema.create(req.body);
+        res.status(201).json({
+            status: true,
+            message: 'Added new user',
+            data: user,
+        })
+        
+    } catch (error) {
+        console.error("Error to add new user", error);
+        next(createHttpError(500, 'Failed to fetch user'));
+        
+    }
+}
+   
 export  {
+    //admin api
+    addNewUser,
+    getAllUsers,
     register,
     login,
     me
